@@ -17,6 +17,11 @@ public class DropPlatform : MonoBehaviour
 
     private void Drop()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void ResetPlatform()
+    {
+        gameObject.SetActive(true);
     }
 }
