@@ -32,6 +32,10 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        if(!PlayerPrefs.HasKey("DeathCounter"))
+        {
+            SaveDeathCounter();
+        }
         startSpeed = player.Data.runMaxSpeed;
         endSpeed = 2 * player.Data.runMaxSpeed;
         LoadDeathCounter();
@@ -110,11 +114,12 @@ public class LevelManager : MonoBehaviour
         levelFailed = false;
         levelCompleted = false;
 
-        DropPlatform[] dropPlatforms  = FindObjectsOfType(typeof(DropPlatform)) as DropPlatform[];
+        DropPlatform[] dropPlatforms  = FindObjectsByType(typeof(DropPlatform), FindObjectsInactive.Include, FindObjectsSortMode.None) as DropPlatform[];
 
         foreach (DropPlatform platform in dropPlatforms)
         {
             platform.ResetPlatform();
+            Debug.Log("Reset " + platform.name);
         }
 
         // Reset the player
