@@ -23,5 +23,6 @@ public class DropPlatform : MonoBehaviour
     public void ResetPlatform()
     {
         gameObject.SetActive(true);
+        hasDropped=false;
     }
 }
