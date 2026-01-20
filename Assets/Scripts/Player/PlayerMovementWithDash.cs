@@ -6,6 +6,7 @@
 	Feel free to use this in your own games, and I'd love to see anything you make!
  */
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -75,6 +76,11 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private LayerMask _groundLayer;
 	#endregion
 
+	#region ANIMATION VARIABLES
+	[Header("Animation Variables")]
+	public Animator anim;
+	#endregion
+
     private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
@@ -101,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
 		#region INPUT HANDLER
 		_moveInput.x = Input.GetAxisRaw("Horizontal");
 		_moveInput.y = Input.GetAxisRaw("Vertical");
+
+		GroundAnim();
 
 		if (_moveInput.x != 0)
 			CheckDirectionToFace(_moveInput.x > 0);
@@ -343,6 +351,7 @@ public class PlayerMovement : MonoBehaviour
 		#region Calculate AccelRate
 		float accelRate;
 
+
 		//Gets an acceleration value based on if we are accelerating (includes turning) 
 		//or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
 		if (LastOnGroundTime > 0)
@@ -378,6 +387,8 @@ public class PlayerMovement : MonoBehaviour
 
 		//Convert this to a vector and apply to rigidbody
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+		MovingAnim(Math.Abs(movement));
 
 		/*
 		 * For those interested here is what AddForce() will do
@@ -569,6 +580,20 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
     #endregion
+
+	#region ANIMATION HANDLING
+
+	private void GroundAnim()
+	{
+		anim.SetBool("Grounded", !IsJumping);
+	}
+
+	private void MovingAnim(float curSpeed)
+	{
+		anim.SetBool("Moving", curSpeed>0.1);
+	}
+
+	#endregion
 }
 
 // created by Dawnosaur :D
