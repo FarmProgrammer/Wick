@@ -10,4 +10,11 @@ public class HazardScript : MonoBehaviour
             manager.FailLevel();
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color= Color.red;
+
+        Gizmos.DrawWireCube(transform.position + new Vector3(GetComponent<BoxCollider2D>().offset.x, GetComponent<BoxCollider2D>().offset.y, 0), GetComponent<BoxCollider2D>().size);
+    }
 }
